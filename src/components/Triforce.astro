@@ -1,0 +1,65 @@
+<div class="triforce-container">
+  <div class="triforce">
+    <button class="triangle top"></button>
+    <button class="triangle bottom-left"></button>
+    <button class="triangle bottom-right"></button>
+  </div>
+</div>
+
+<style>
+  .triforce-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem 0;
+  }
+
+  .triforce {
+    position: relative;
+    width: 200px;
+    height: 173px;
+  }
+
+  .triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 86.6px solid #FFD700;
+    background: none;
+    border-top: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .triangle:hover {
+    border-bottom-color: #FFA500;
+    transform: scale(1.1);
+  }
+
+  .bottom-left:hover,
+  .bottom-right:hover {
+    transform: scale(1.1);
+  }
+
+  .top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .top:hover {
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  .bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+
+  .bottom-right {
+    bottom: 0;
+    right: 0;
+  }
+</style> 
