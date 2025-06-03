@@ -19,13 +19,18 @@ const {
 		<BaseHead title={title} description={description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<style>
+			/* Variables globales */
 			:root {
+				/* Transiciones */
 				--transition-duration: 1.5s;
-				--preloader-bg: #000;
+				--transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+				
+				/* Layout */
 				--max-width: 1200px;
 				--container-padding: 1rem;
 			}
 
+			/* Reset y estilos base */
 			* {
 				box-sizing: border-box;
 				margin: 0;
@@ -39,6 +44,7 @@ const {
 				-webkit-font-smoothing: antialiased;
 				-moz-osx-font-smoothing: grayscale;
 				scroll-behavior: smooth;
+				height: 100%;
 			}
 
 			body {
@@ -50,26 +56,24 @@ const {
 				line-height: 1.5;
 				text-rendering: optimizeLegibility;
 				position: relative;
+				height: 100%;
+				background-color: #8B0000;
 			}
 
-			img {
-				max-width: 100%;
-				height: auto;
-				display: block;
-			}
-
+			/* Preloader */
 			#preloader {
 				position: fixed;
 				inset: 0;
-				width: 100vw;
-				height: 100vh;
-				background: var(--preloader-bg);
+				width: 100%;
+				height: 100%;
+				background: #000;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				z-index: 9999;
 				opacity: 1;
-				transition: opacity var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+				transition: opacity var(--transition-duration) var(--transition-timing);
+				overflow: hidden;
 			}
 
 			#preloader.fade-out {
@@ -79,8 +83,9 @@ const {
 			#preloader img {
 				width: min(90vw, 600px);
 				height: auto;
-				transition: all var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+				transition: all var(--transition-duration) var(--transition-timing);
 				object-fit: contain;
+				position: relative;
 			}
 
 			#preloader.fade-out img {
@@ -88,9 +93,10 @@ const {
 				opacity: 0;
 			}
 
+			/* Contenido principal */
 			#content {
 				opacity: 0;
-				transition: opacity var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+				transition: opacity var(--transition-duration) var(--transition-timing);
 				width: 100%;
 				min-height: 100vh;
 				display: flex;
@@ -98,6 +104,17 @@ const {
 				margin: 0 auto;
 				max-width: var(--max-width);
 				padding: 0 var(--container-padding);
+				position: relative;
+				z-index: 1;
+			}
+
+			#content::before {
+				content: '';
+				position: fixed;
+				inset: 0;
+				background: rgba(255, 255, 255, 0.85);
+				backdrop-filter: blur(10px);
+				z-index: -1;
 			}
 
 			#content.visible {
@@ -109,14 +126,12 @@ const {
 			}
 
 			/* Media Queries */
-			/* Large devices (desktops, less than 1200px) */
 			@media screen and (max-width: 1199.98px) {
 				:root {
 					--max-width: 960px;
 				}
 			}
 
-			/* Medium devices (tablets, less than 992px) */
 			@media screen and (max-width: 991.98px) {
 				:root {
 					--max-width: 720px;
@@ -126,7 +141,6 @@ const {
 				}
 			}
 
-			/* Small devices (landscape phones, less than 768px) */
 			@media screen and (max-width: 767.98px) {
 				:root {
 					--max-width: 540px;
@@ -140,9 +154,9 @@ const {
 				}
 			}
 
-			/* Extra small devices (portrait phones, less than 576px) */
 			@media screen and (max-width: 575.98px) {
 				:root {
+					--max-width: 100%;
 					--container-padding: 0.5rem;
 				}
 				html {
@@ -153,8 +167,10 @@ const {
 				}
 			}
 
-			/* Extra small devices (small phones, less than 360px) */
 			@media screen and (max-width: 359.98px) {
+				:root {
+					--container-padding: 0.25rem;
+				}
 				html {
 					font-size: 12px;
 				}
@@ -163,10 +179,42 @@ const {
 				}
 			}
 
-			/* Orientation specific adjustments */
+			/* Optimizaciones para tablets */
+			@media screen and (min-width: 1024px) and (max-width: 1366px) {
+				:root {
+					--max-width: 90%;
+				}
+				#preloader img {
+					width: min(70vw, 800px);
+				}
+			}
+
+			@media screen and (min-width: 768px) and (max-width: 1023px) {
+				:root {
+					--max-width: 85%;
+				}
+				#preloader img {
+					width: min(75vw, 700px);
+				}
+			}
+
+			/* Ajustes para orientación landscape */
 			@media screen and (orientation: landscape) and (max-height: 500px) {
+				#preloader {
+					position: fixed;
+					height: 100vh;
+				}
 				#preloader img {
 					width: 50vh;
+					max-height: 80vh;
+				}
+			}
+
+			/* Soporte para iOS */
+			@supports (-webkit-touch-callout: none) {
+				#preloader {
+					position: fixed;
+					height: -webkit-fill-available;
 				}
 			}
 		</style>
@@ -178,26 +226,51 @@ const {
 		</div>
 		<script>
 			document.addEventListener('DOMContentLoaded', () => {
+				// Elementos del DOM
 				const preloader = document.getElementById('preloader');
 				const content = document.getElementById('content');
 				
 				if (!preloader || !content) return;
 
-				// Prevenir scroll durante el preloader
-				document.body.style.overflow = 'hidden';
+				// Control de scroll
+				const scrollControl = {
+					preventScroll() {
+						document.body.style.overflow = 'hidden';
+						document.documentElement.style.overflow = 'hidden';
+					},
+					enableScroll() {
+						document.body.style.overflow = '';
+						document.documentElement.style.overflow = '';
+					}
+				};
 
-				setTimeout(() => {
-					preloader.classList.add('fade-out');
-					setTimeout(() => {
-						preloader.style.display = 'none';
-						content.classList.remove('hidden');
+				// Gestión del preloader
+				const preloaderManager = {
+					setHeight() {
+						if (preloader) {
+							preloader.style.height = `${window.innerHeight}px`;
+						}
+					},
+					hide() {
+						preloader.classList.add('fade-out');
 						setTimeout(() => {
-							content.classList.add('visible');
-							// Restaurar scroll después del preloader
-							document.body.style.overflow = '';
-						}, 100);
-					}, 1500);
-				}, 7000);
+							preloader.style.display = 'none';
+							content.classList.remove('hidden');
+							setTimeout(() => {
+								content.classList.add('visible');
+								scrollControl.enableScroll();
+							}, 100);
+						}, 1500);
+					}
+				};
+
+				// Inicialización
+				scrollControl.preventScroll();
+				preloaderManager.setHeight();
+				window.addEventListener('resize', preloaderManager.setHeight);
+
+				// Iniciar secuencia
+				setTimeout(preloaderManager.hide, 7000);
 			});
 		</script>
 	</body>

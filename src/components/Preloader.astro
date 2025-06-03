@@ -1,3 +1,147 @@
-<div id="preloader">
-	<img src="/img/animacion.gif" alt="logo animado">
-</div> 
+---
+interface Props {
+	imagePath?: string;
+	altText?: string;
+}
+
+const { 
+	imagePath = "/img/animacion.gif",
+	altText = "logo animado"
+} = Astro.props;
+---
+
+<div id="preloader" class="preloader">
+	<div class="preloader__container">
+		<img 
+			src={imagePath} 
+			alt={altText}
+			class="preloader__image"
+			width="600"
+			height="600"
+			loading="eager"
+			decoding="async"
+		/>
+	</div>
+</div>
+
+<style>
+	.preloader {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		background: #000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 9999;
+		opacity: 1;
+		transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+		overflow: hidden;
+	}
+
+	.preloader.fade-out {
+		opacity: 0;
+	}
+
+	.preloader__container {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1rem;
+	}
+
+	.preloader__image {
+		width: min(90vw, 600px);
+		height: auto;
+		max-width: 100%;
+		transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+		object-fit: contain;
+		position: relative;
+		aspect-ratio: 1;
+	}
+
+	.preloader.fade-out .preloader__image {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+
+	/* Optimizaciones para diferentes dispositivos */
+	@media screen and (min-width: 1920px) {
+		.preloader__image {
+			width: min(70vw, 800px);
+		}
+	}
+
+	@media screen and (min-width: 1440px) and (max-width: 1919px) {
+		.preloader__image {
+			width: min(75vw, 700px);
+		}
+	}
+
+	@media screen and (min-width: 1024px) and (max-width: 1439px) {
+		.preloader__image {
+			width: min(80vw, 600px);
+		}
+	}
+
+	@media screen and (min-width: 768px) and (max-width: 1023px) {
+		.preloader__image {
+			width: min(85vw, 500px);
+		}
+	}
+
+	@media screen and (max-width: 767px) {
+		.preloader__image {
+			width: min(90vw, 400px);
+		}
+	}
+
+	@media screen and (max-width: 575px) {
+		.preloader__image {
+			width: min(95vw, 300px);
+		}
+	}
+
+	/* Optimizaciones para orientación landscape */
+	@media screen and (orientation: landscape) and (max-height: 500px) {
+		.preloader {
+			height: 100vh;
+		}
+		.preloader__image {
+			width: min(50vh, 300px);
+			max-height: 80vh;
+		}
+	}
+
+	/* Optimizaciones para dispositivos táctiles */
+	@media (hover: none) and (pointer: coarse) {
+		.preloader__container {
+			padding: 0.5rem;
+		}
+	}
+
+	/* Soporte para iOS */
+	@supports (-webkit-touch-callout: none) {
+		.preloader {
+			height: -webkit-fill-available;
+		}
+	}
+
+	/* Optimizaciones para pantallas de alta densidad */
+	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+		.preloader__image {
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: crisp-edges;
+		}
+	}
+
+	/* Optimizaciones para modo oscuro */
+	@media (prefers-color-scheme: dark) {
+		.preloader {
+			background: #000;
+		}
+	}
+</style> 

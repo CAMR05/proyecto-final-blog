@@ -6,7 +6,7 @@
 
 :root {
 	--accent: #ff0000;
-	--accent-dark: #f10000;
+	--accent-dark: --gray-dark
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
