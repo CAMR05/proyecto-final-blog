@@ -7,7 +7,7 @@ export default class Preloader {
         this.preloader = document.getElementById('preloader');
         this.isHidden = false;
         
-        
+        // Asegurarnos de que el preloader esté visible inicialmente
         if (this.preloader) {
             this.preloader.style.display = 'flex';
             this.preloader.style.opacity = '1';

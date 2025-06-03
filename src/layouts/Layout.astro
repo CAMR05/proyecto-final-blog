@@ -1,32 +1,204 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import Header from '../components/Header.astro';
-import './Layout.css';
-import Preloader from '../components/Preloader.astro';
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 interface Props {
-	title: string;
+	title?: string;
 	description?: string;
 }
 
-const { title, description = "Welcome to Astro." } = Astro.props;
+const { 
+	title = SITE_TITLE,
+	description = SITE_DESCRIPTION
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title}</title>
-		<ViewTransitions />
+		<BaseHead title={title} description={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<style>
+			:root {
+				--transition-duration: 1.5s;
+				--preloader-bg: #000;
+				--max-width: 1200px;
+				--container-padding: 1rem;
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			html {
+				font-size: 16px;
+				-webkit-text-size-adjust: 100%;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				scroll-behavior: smooth;
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				overflow-x: hidden;
+				width: 100%;
+				min-height: 100vh;
+				line-height: 1.5;
+				text-rendering: optimizeLegibility;
+				position: relative;
+			}
+
+			img {
+				max-width: 100%;
+				height: auto;
+				display: block;
+			}
+
+			#preloader {
+				position: fixed;
+				inset: 0;
+				width: 100vw;
+				height: 100vh;
+				background: var(--preloader-bg);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 9999;
+				opacity: 1;
+				transition: opacity var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+			}
+
+			#preloader.fade-out {
+				opacity: 0;
+			}
+
+			#preloader img {
+				width: min(90vw, 600px);
+				height: auto;
+				transition: all var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+				object-fit: contain;
+			}
+
+			#preloader.fade-out img {
+				transform: scale(0.5);
+				opacity: 0;
+			}
+
+			#content {
+				opacity: 0;
+				transition: opacity var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+				width: 100%;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				margin: 0 auto;
+				max-width: var(--max-width);
+				padding: 0 var(--container-padding);
+			}
+
+			#content.visible {
+				opacity: 1;
+			}
+
+			.hidden {
+				display: none !important;
+			}
+
+			/* Media Queries */
+			/* Large devices (desktops, less than 1200px) */
+			@media screen and (max-width: 1199.98px) {
+				:root {
+					--max-width: 960px;
+				}
+			}
+
+			/* Medium devices (tablets, less than 992px) */
+			@media screen and (max-width: 991.98px) {
+				:root {
+					--max-width: 720px;
+				}
+				html {
+					font-size: 15px;
+				}
+			}
+
+			/* Small devices (landscape phones, less than 768px) */
+			@media screen and (max-width: 767.98px) {
+				:root {
+					--max-width: 540px;
+					--container-padding: 0.75rem;
+				}
+				html {
+					font-size: 14px;
+				}
+				#preloader img {
+					width: 85vw;
+				}
+			}
+
+			/* Extra small devices (portrait phones, less than 576px) */
+			@media screen and (max-width: 575.98px) {
+				:root {
+					--container-padding: 0.5rem;
+				}
+				html {
+					font-size: 13px;
+				}
+				#preloader img {
+					width: 80vw;
+				}
+			}
+
+			/* Extra small devices (small phones, less than 360px) */
+			@media screen and (max-width: 359.98px) {
+				html {
+					font-size: 12px;
+				}
+				#preloader img {
+					width: 75vw;
+				}
+			}
+
+			/* Orientation specific adjustments */
+			@media screen and (orientation: landscape) and (max-height: 500px) {
+				#preloader img {
+					width: 50vh;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<Preloader client:visible />
-		<Header />
-		<main>
+		<slot name="preloader" />
+		<div id="content" class="hidden">
 			<slot />
-		</main>
+		</div>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const preloader = document.getElementById('preloader');
+				const content = document.getElementById('content');
+				
+				if (!preloader || !content) return;
+
+				// Prevenir scroll durante el preloader
+				document.body.style.overflow = 'hidden';
+
+				setTimeout(() => {
+					preloader.classList.add('fade-out');
+					setTimeout(() => {
+						preloader.style.display = 'none';
+						content.classList.remove('hidden');
+						setTimeout(() => {
+							content.classList.add('visible');
+							// Restaurar scroll después del preloader
+							document.body.style.overflow = '';
+						}, 100);
+					}, 1500);
+				}, 7000);
+			});
+		</script>
 	</body>
 </html> 
