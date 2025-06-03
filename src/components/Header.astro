@@ -6,9 +6,16 @@ import { SITE_TITLE } from '../consts';
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<div class="audio-container">
+			<audio id="bgMusic" loop>
+				<source src="/mix-website_mezcla.mp3" type="audio/mpeg">
+				Tu navegador no soporta el elemento de audio.
+			</audio>
+			<button id="playButton" class="play-button">▶️ Play Music</button>
+		</div>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
+			<HeaderLink href="/linktree">Linktree</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<div class="social-links">
@@ -68,9 +75,90 @@ import { SITE_TITLE } from '../consts';
 	.social-links a {
 		display: flex;
 	}
+	.audio-container {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	.audio-container audio {
+		display: none;
+	}
+	.play-button {
+		padding: 0.5rem 1rem;
+		border: none;
+		border-radius: 4px;
+		background: #0070f3;
+		color: white;
+		cursor: pointer;
+		transition: background 0.3s;
+	}
+	.play-button:hover {
+		background: #0051a2;
+	}
 	@media (max-width: 720px) {
 		.social-links {
 			display: none;
 		}
+		.audio-container {
+			flex-direction: column;
+		}
 	}
 </style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const audio = document.getElementById('bgMusic') as HTMLAudioElement;
+		const playButton = document.getElementById('playButton');
+		
+		if (audio && playButton) {
+			// Configurar el audio
+			audio.preload = 'auto';
+			audio.volume = 1.0;
+			
+			// Eventos de depuración para el audio
+			audio.addEventListener('loadstart', () => {
+				console.log('Iniciando carga del audio');
+			});
+
+			audio.addEventListener('canplay', () => {
+				console.log('Audio puede reproducirse');
+			});
+
+			audio.addEventListener('canplaythrough', () => {
+				console.log('Audio completamente cargado');
+				playButton.textContent = '▶️ Play Music';
+			});
+
+			audio.addEventListener('error', (e) => {
+				console.error('Error al cargar el audio:', e);
+				playButton.textContent = '❌ Error de carga';
+			});
+			
+			playButton.addEventListener('click', async () => {
+				try {
+					if (audio.paused) {
+						console.log('Estado del audio:', {
+							readyState: audio.readyState,
+							networkState: audio.networkState,
+							error: audio.error
+						});
+						
+						await audio.play();
+						playButton.textContent = '⏸️ Pause Music';
+					} else {
+						audio.pause();
+						playButton.textContent = '▶️ Play Music';
+					}
+				} catch (error) {
+					console.error('Error al reproducir el audio:', error);
+					playButton.textContent = '❌ Error';
+				}
+			});
+
+			// Manejar el final del audio
+			audio.addEventListener('ended', () => {
+				playButton.textContent = '▶️ Play Music';
+			});
+		}
+	});
+</script>

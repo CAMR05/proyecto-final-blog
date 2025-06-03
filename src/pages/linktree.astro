@@ -1,0 +1,43 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+
+
+<body>
+  <Header />
+  
+  <main class="container" id="challenge-container">
+    <section>
+      <header class="text-center" id="challenge-main-header">
+        <h1>CAPLITOS05</h1>
+        <p>¡Conózcanme!</p>
+        <picture>
+          <source srcset="/img/IMG_1167.jpg" width="150" type="image/jpg" media="(min-width: 500px)">
+          <img src="/img/IMG_1167.jpg" alt="Yo merengues">
+        </picture>
+      </header>
+      <nav id="challenge-nav">
+        <ul>
+          <li>
+            <a href="https://x.com/i/flow/login?redirect_after_login=%2Fcamr05" class="challenge-link" target="_blank" aria-label="Twitter">Twitter</a>
+          </li>
+          <li>
+            <a href="https://github.com/CAMR05" class="challenge-link" target="_blank" aria-label="GitHub">GitHub</a>
+          </li>
+          <li>
+            <a href="https://youtube.com/@camo0502?si=9T2mlMnvD-h8ccDM" target="_blank" class="challenge-link" aria-label="YouTube">YouTube</a>
+          </li>
+          <li>
+            <a href="https://music.apple.com/profile/Litos0505" target="_blank" class="challenge-link" aria-label="Apple Music">Apple Music</a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+  </main>
+
+  <Footer />
+</body>
+</html>

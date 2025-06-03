@@ -1,0 +1,32 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import './Layout.css';
+import Preloader from '../components/Preloader.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Welcome to Astro." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body>
+		<Preloader client:visible />
+		<Header />
+		<main>
+			<slot />
+		</main>
+	</body>
+</html> 
