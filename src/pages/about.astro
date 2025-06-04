@@ -8,7 +8,7 @@ import Layout from '../layouts/BlogPost.astro';
 	pubDate={new Date('June 03 2025')}
 	heroImage="/img/CarlosMoheno_Movimiento.gif"
 >
-	<p>
+	<p data-translate="about_me_intro">
 		Mi nombre es Carlos, Carlos Moheno. Soy estudiante de la carrera 'Computación Creativa'. Tengo un poco de experiencia diseñando páginas web y muy ligera en programación con Java.
 		Tengo 20 años, me encanta la música, los videojuegos, los cómics, películas, series, las caricaturas 'vintage'.
 		Me entusiasma mucho poder ayudar a la gente en la medida en la que me sea posible. Siempre que pueda brindar apoyo lo haré sin dudarlo.
@@ -16,6 +16,6 @@ import Layout from '../layouts/BlogPost.astro';
 
 	<picture>
 		<source srcset="/img/CarlosMoheno_Fotomontaje.jpg" width="450" type="image/jpg" media="(min-width: 500px)">
-		<img src="/img/CarlosMoheno_Fotomontaje.jpg" alt="Este soy yo" style="max-width: 100%; height: auto; border-radius: 8px; margin: 2em 0;">
+		<img src="/img/CarlosMoheno_Fotomontaje.jpg" alt="Este soy yo" data-translate-alt="about_me_image" style="max-width: 100%; height: auto; border-radius: 8px; margin: 2em 0;">
 	</picture>
 </Layout>

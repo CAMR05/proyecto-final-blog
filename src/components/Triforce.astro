@@ -1,8 +1,27 @@
+---
+interface Props {
+  topLink: {
+    href: string;
+    text: string;
+  };
+  bottomLeftLink: {
+    href: string;
+    text: string;
+  };
+  bottomRightLink: {
+    href: string;
+    text: string;
+  };
+}
+
+const { topLink, bottomLeftLink, bottomRightLink } = Astro.props;
+---
+
 <div class="triforce-container">
   <div class="triforce">
-    <button class="triangle top" onclick="window.location.href='/content/Comprension_y_Creacion_Textos-Historia-Carlos_Moheno.pdf'" style="cursor: pointer;">Poemas</button>
-    <button class="triangle bottom-left" onclick="window.location.href='/content/Comprension_y_Creacion_Textos-Historia-Carlos_Moheno.pdf'" style="cursor: pointer;"></button>
-    <button class="triangle bottom-right" onclick="window.location.href='/content/Comprension_y_Creacion_Textos-Historia-Carlos_Moheno.pdf'" style="cursor: pointer;"></button>
+    <a class="triangle top" href={topLink.href} style="cursor: pointer;">{topLink.text}</a>
+    <a class="triangle bottom-left" href={bottomLeftLink.href} style="cursor: pointer;">{bottomLeftLink.text}</a>
+    <a class="triangle bottom-right" href={bottomRightLink.href} style="cursor: pointer;">{bottomRightLink.text}</a>
   </div>
 </div>
 
@@ -16,8 +35,8 @@
 
   .triforce {
     position: relative;
-    width: 300px;
-    height: 260px;
+    width: 370px;
+    height: 290px;
   }
 
   .triangle {
@@ -31,16 +50,26 @@
     border-top: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-top: 35px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
   }
 
   .triangle:hover {
     border-bottom-color: #FFA500;
     transform: scale(1.1);
-  }
-
-  .bottom-left:hover,
-  .bottom-right:hover {
-    transform: scale(1.1);
+    color: #333;
   }
 
   .top {
@@ -56,10 +85,20 @@
   .bottom-left {
     bottom: 0;
     left: 0;
+    transform: translateX(25%);
+  }
+
+  .bottom-left:hover {
+    transform: translateX(25%) scale(1.1);
   }
 
   .bottom-right {
     bottom: 0;
     right: 0;
+    transform: translateX(-25%);
+  }
+
+  .bottom-right:hover {
+    transform: translateX(-25%) scale(1.1);
   }
 </style> 

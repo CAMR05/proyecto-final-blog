@@ -10,18 +10,31 @@ import Preloader from '../components/Preloader.astro';
 	<Preloader slot="preloader" />
 	<Header />
 	<main>
-		<h1 style="text-align: center;">Muy Buenas.</h1>
-		<p style="text-align: center;">Soy CapLitos05.</p>
-		<Triforce />
-		<p>
+		<h1 style="text-align: center;" data-translate="greeting">Muy Buenas.</h1>
+		<p style="text-align: center; line-height: 3.5em;">
+			<span data-translate="introduction" style="vertical-align: middle; font-size: 1.3em;">Soy</span> 
+			<img 
+				src="/img/favicon-96x96.png" 
+				alt="CapLitos05 Logo" 
+				width="56" 
+				height="56"
+				style="vertical-align: middle; pointer-events: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; display: inline-block;"
+			>.
+		</p>
+		<Triforce 
+			topLink={{ href: "/poemas", text: "Poemas" }}
+			bottomLeftLink={{ href: "/historias", text: "Historias" }}
+			bottomRightLink={{ href: "/frases", text: "Frases" }}
+		/>
+		<p data-translate="welcome_message">
 			Bienvenido a mi blog personal. Aquí encontrarás mis pensamientos, proyectos y experiencias.
 		</p>
-		<p>Algunas cosas que puedes hacer aquí:</p>
+		<p data-translate="things_to_do">Algunas cosas que puedes hacer aquí:</p>
 		<ul>
-			<li>Explorar mis publicaciones en el blog</li>
-			<li>Conocer más sobre mí</li>
-			<li>Ver mis proyectos</li>
-			<li>Contactarme</li>
+			<li data-translate="explore_texts">Explorar algunos textos en el blog</li>
+			<li data-translate="about_me">Conocer más sobre mí</li>
+			<li data-translate="view_projects">Ver mis proyectos</li>
+			<li data-translate="contact_follow">Contactarme o seguirme</li>
 		</ul>
 	</main>
 	<Footer />

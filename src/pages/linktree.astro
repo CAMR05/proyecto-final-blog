@@ -1,43 +1,188 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
+import { COLORS, BREAKPOINTS, SOCIAL_LINKS } from '../consts';
 import '../styles/global.css';
+
+const socialLinks = [
+	{
+		platform: 'twitter',
+		url: 'https://x.com/i/flow/login?redirect_after_login=%2Fcamr05',
+		label: 'Twitter',
+		color: '#1DA1F2'
+	},
+	{
+		platform: 'github',
+		url: 'https://github.com/CAMR05',
+		label: 'GitHub',
+		color: '#333'
+	},
+	{
+		platform: 'youtube',
+		url: 'https://youtube.com/@camo0502?si=9T2mlMnvD-h8ccDM',
+		label: 'YouTube',
+		color: '#FF0000'
+	},
+	{
+		platform: 'apple',
+		url: 'https://music.apple.com/profile/Litos0505',
+		label: 'Apple Music',
+		color: '#FB2D3F'
+	}
+];
 ---
 
+<Layout>
+	<Preloader slot="preloader" />
+	<Header />
+	<main>
+		<div class="container">
+			<header class="profile-header">
+				<img src="/img/favicon-96x96.png" alt="Logo" width="96" height="96">
+				<p>Este soy yo</p>
+				<picture>
+					<source srcset="/img/IMG_1167.jpg" width="150" type="image/jpg" media="(min-width: 500px)">
+					<img src="/img/IMG_1167.jpg" alt="Yo merengues" width="150" height="150">
+				</picture>
+			</header>
+			<nav class="link-nav">
+				{SOCIAL_LINKS.map(({ platform, url, label, color }) => (
+					<a 
+						href={url} 
+						class="link-item" 
+						target="_blank" 
+						rel="noopener noreferrer"
+						style={`--hover-color: ${color}`}
+					>
+						<img src={`/img/${platform}.svg`} alt={`${label} Logo`} class="link-icon">
+						{label}
+					</a>
+				))}
+			</nav>
+		</div>
+	</main>
+	<Footer />
+</Layout>
 
+<style>
+	main {
+		min-height: calc(100vh - 200px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 2rem 1rem;
+		background-color: var(--color-darkRed);
+	}
 
-<body>
-  <Header />
-  
-  <main class="container" id="challenge-container">
-    <section>
-      <header class="text-center" id="challenge-main-header">
-        <h1>CAPLITOS05</h1>
-        <p>¡Conózcanme!</p>
-        <picture>
-          <source srcset="/img/IMG_1167.jpg" width="150" type="image/jpg" media="(min-width: 500px)">
-          <img src="/img/IMG_1167.jpg" alt="Yo merengues">
-        </picture>
-      </header>
-      <nav id="challenge-nav">
-        <ul>
-          <li>
-            <a href="https://x.com/i/flow/login?redirect_after_login=%2Fcamr05" class="challenge-link" target="_blank" aria-label="Twitter">Twitter</a>
-          </li>
-          <li>
-            <a href="https://github.com/CAMR05" class="challenge-link" target="_blank" aria-label="GitHub">GitHub</a>
-          </li>
-          <li>
-            <a href="https://youtube.com/@camo0502?si=9T2mlMnvD-h8ccDM" target="_blank" class="challenge-link" aria-label="YouTube">YouTube</a>
-          </li>
-          <li>
-            <a href="https://music.apple.com/profile/Litos0505" target="_blank" class="challenge-link" aria-label="Apple Music">Apple Music</a>
-          </li>
-        </ul>
-      </nav>
-    </section>
-  </main>
+	.container {
+		width: 100%;
+		max-width: var(--max-width);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+	}
 
-  <Footer />
-</body>
-</html>
+	.profile-header {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.profile-header img {
+		border-radius: 50%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+
+	.profile-header img:hover {
+		transform: scale(1.05);
+	}
+
+	.profile-header p {
+		color: var(--color-white);
+		font-size: 1.2rem;
+		margin: 0;
+	}
+
+	.profile-header picture img {
+		border-radius: 50%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+
+	.profile-header picture img:hover {
+		transform: scale(1.05);
+	}
+
+	.link-nav {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.link-item {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+		text-decoration: none;
+		color: var(--color-white);
+		font-weight: 500;
+		transition: all 0.3s ease;
+	}
+
+	.link-item:hover {
+		background: var(--hover-color);
+		transform: translateY(-2px);
+	}
+
+	.link-icon {
+		width: 24px;
+		height: 24px;
+		transition: transform 0.3s ease;
+	}
+
+	.link-item:hover .link-icon {
+		transform: scale(1.1);
+	}
+
+	@media (max-width: var(--breakpoint-mobile)) {
+		main {
+			padding: 1rem;
+		}
+
+		.container {
+			gap: 1.5rem;
+		}
+
+		.profile-header p {
+			font-size: 1.1rem;
+		}
+
+		.link-item {
+			padding: 0.875rem;
+		}
+	}
+</style>
+
+<script>
+	// Variables CSS globales
+	document.documentElement.style.setProperty('--color-primary', '${COLORS.primary}');
+	document.documentElement.style.setProperty('--color-secondary', '${COLORS.secondary}');
+	document.documentElement.style.setProperty('--color-white', '${COLORS.white}');
+	document.documentElement.style.setProperty('--color-black', '${COLORS.black}');
+	document.documentElement.style.setProperty('--color-transparent', '${COLORS.transparent}');
+	document.documentElement.style.setProperty('--color-overlay', '${COLORS.overlay}');
+	document.documentElement.style.setProperty('--color-darkRed', '${COLORS.darkRed}');
+	document.documentElement.style.setProperty('--max-width', '${BREAKPOINTS.desktop}');
+	document.documentElement.style.setProperty('--breakpoint-mobile', '${BREAKPOINTS.mobile}');
+</script>

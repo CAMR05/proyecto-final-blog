@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Triforce from '../components/Triforce.astro';
+import Preloader from '../components/Preloader.astro';
+import BlogPost from '../layouts/BlogPost.astro';
+---
+
+<Layout>
+	<Preloader slot="preloader" />
+	<Header />
+	<main>
+		<h1 style="text-align: center;" data-translate="stories_title">Historias</h1>
+		<p style="text-align: center;" data-translate="story_content">
+			-"¿Hago lo suficiente por aquellos que me importan?" 
+ 
+			Es algo que un chico se pregunta todos los días de su vida. 
+			Este  chico  tiene  un  día  como  el  de  casi  cualquier  chico  de  19  años:  se  levanta 
+			temprano,  se  da  un  baño,  se  viste,  desayuna,  se  cepilla  los  dientes,  se  va  a  la 
+			escuela, está presente en clase, convive, regresa a casa, descansa un poco, hace 
+			tarea,  se  duerme  y  repite  durante  4  días  a  la  semana  este  mismo  proceso,  con 
+			variaciones, pero a grandes rasgos es eso. 
+			 
+			Algo que ha podido entender con los años es que el mundo y la vida son como una 
+			escuela que dura desde que nacemos hasta que, inevitablemente, descansamos... 
+			¿Cómo  se  explica  esto?  Bueno,  en  el  sentido  de  que  cada  día,  hora,  minuto, 
+			segundo o momento que vivimos y con quienes lo hacemos, nos enseña una lección 
+			importantísima. Este chico creé firmemente que todo sucede por algo, pero a la vez 
+			esto genera en él mucha ansiedad de cierta forma. Teme mucho en las lecciones y 
+			aprendizajes que él mismo puede brindar a la gente. Sabe que no quiere ser una de 
+			esas  lecciones  que  duelen,  sino  una  que  pueda  darle  esperanza  a los demás, y 
+			sabe que para lograrlo hay tres factores de suma importancia a tomar en cuenta: el 
+			valor, la sabiduría y el poder. 
+			 
+			Si  uno  lo  piensa  bien,  es  fácil  percatarse  que  estos  tres  elementos  tienen  una 
+			importancia vital en cada una de las elecciones que tomamos. La sabiduría nos guía 
+			qué  camino  tomar  en  cada  situación. El poder nos otorga la posibilidad de tomar 
+			dicha elección o realizar cierta acción. El valor nos enseña que tan capaces o que 
+			tan dispuestos estamos a llevar nuestras acciones a cabo. Dicho tres elementos son 
+			como fotografías que llevamos a todos lados y que, si nos tomamos un momento 
+			para volverlas a ver, nos pueden revelar mucho. 
+			 
+			El chico sólo sabe una cosa, quiere ser alguien que ayude a otros, y para lograrlo 
+			sabe  que,  sólo  tomándose  un  momento  para  analizar  cómo  actuar  día  a  día, 
+			siempre sobre la mesa están las 3 fotografías.
+		</p>
+		
+		<br>
+
+		<p data-translate="more_texts_coming_soon">Más textos próximamente...</p>
+		<Triforce 
+			topLink={{ href: "/poemas", text: "Poemas" }}
+			bottomLeftLink={{ href: "/frases", text: "Frases" }}
+			bottomRightLink={{ href: "/", text: "Home" }}
+		/>
+		
+	</main>
+	<Footer />
+</Layout>

@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Preloader from '../pages/preloader.js';
+import Preloader from '../components/Preloader.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import '../styles/global.css';
 
@@ -12,65 +12,201 @@ type Props = CollectionEntry<'blog'>['data'];
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="es">
 	<head>
 		<BaseHead title={title} description={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<style>
 			main {
-				width: calc(100% - 2em);
+				width: 100%;
 				max-width: 100%;
 				margin: 0;
+				padding: 1rem;
+				box-sizing: border-box;
+				overflow-x: hidden;
 			}
+
+			.hero-image {
+				width: 100%;
+				margin: 0 auto 2rem;
+				box-sizing: border-box;
+			}
+
 			.hero-image img {
 				display: block;
+				width: 100%;
+				height: auto;
 				margin: 0 auto;
 				border-radius: 12px;
 				box-shadow: var(--box-shadow);
+				object-fit: cover;
 			}
+
 			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
+				width: 100%;
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 1rem;
+				color: #ff5100;
+				box-sizing: border-box;
 			}
+
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
+				margin-bottom: 2rem;
+				padding: 1rem 0;
 				text-align: center;
+				width: 100%;
 			}
+
 			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
+				margin-bottom: 1rem;
+				color: #ff5100;
+				opacity: 0.8;
+			}
+
+			.last-updated-on {
+				font-size: 0.9em;
+				margin-top: 0.5rem;
+			}
+
+			h1 {
+				font-size: 2.5rem;
+				margin: 1rem 0;
+				color: #ff5100;
+				word-wrap: break-word;
+			}
+
+			hr {
+				border: none;
+				border-top: 2px solid #ff5100;
+				margin: 1.5rem 0;
+				opacity: 0.3;
+				width: 100%;
+			}
+
+			p {
+				margin-bottom: 1.5rem;
+				line-height: 1.6;
+				text-align: justify;
+				word-wrap: break-word;
+				overflow-wrap: break-word;
+			}
+
+			picture {
+				display: block;
+				width: 100%;
+				margin: 2rem 0;
+				box-sizing: border-box;
+			}
+
+			picture img {
+				width: 100%;
+				height: auto;
+				border-radius: 12px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			/* Media Queries */
+			@media screen and (max-width: 768px) {
+				main {
+					padding: 0.5rem;
+				}
+
+				.prose {
+					padding: 0.5rem;
+				}
+
+				h1 {
+					font-size: 2rem;
+				}
+
+				.title {
+					margin-bottom: 1.5rem;
+					padding: 0.5rem 0;
+				}
+
+				.date {
+					font-size: 0.9rem;
+				}
+
+				p {
+					font-size: 1rem;
+					margin-bottom: 1rem;
+				}
+			}
+
+			@media screen and (max-width: 480px) {
+				main {
+					padding: 0.25rem;
+				}
+
+				.prose {
+					padding: 0.25rem;
+				}
+
+				h1 {
+					font-size: 1.75rem;
+				}
+
+				.title {
+					margin-bottom: 1rem;
+				}
+
+				.date {
+					font-size: 0.8rem;
+				}
+
+				p {
+					font-size: 0.95rem;
+				}
+
+				picture {
+					margin: 1rem 0;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
-		<Preloader />
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{updatedDate && (
-								<div class="last-updated-on">
-									Last updated on <FormattedDate date={updatedDate} />
-								</div>
-							)}
-						</div>
-						<h1>{title}</h1>
-						<hr />
+		<Preloader slot="preloader" />
+		<div id="content" class="hidden">
+			<Header />
+			<main>
+				<article>
+					<div class="hero-image">
+						{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
 					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
+					<div class="prose">
+						<div class="title">
+							<div class="date">
+								<FormattedDate date={pubDate} />
+								{updatedDate && (
+										<div class="last-updated-on">
+											Last updated on <FormattedDate date={updatedDate} />
+										</div>
+								)}
+							</div>
+							<h1>{title}</h1>
+							<hr />
+						</div>
+						<slot />
+					</div>
+				</article>
+			</main>
+			<Footer />
+		</div>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const content = document.getElementById('content');
+				if (!content) return;
+
+				// Mostrar el contenido después de un breve retraso
+				setTimeout(() => {
+					content.classList.remove('hidden');
+					content.classList.add('visible');
+				}, 100);
+			});
+		</script>
 	</body>
 </html>

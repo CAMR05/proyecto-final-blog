@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
+import BlogPost from '../layouts/BlogPost.astro';
+import Triforce from '../components/Triforce.astro';
+---
+
+<Layout>
+	<Preloader slot="preloader" />
+	<Header />
+	<main>
+		<h1 style="text-align: center;" data-translate="quotes_title">Frases</h1>
+		<p style="text-align: center;" data-translate="quote_content">
+			La valentía no es la ausencia del miedo.
+			Es sentir el miedo y aún así hacerlo.
+		</p>
+
+		<br>
+
+		<p data-translate="more_texts_coming_soon">Más textos próximamente...</p>
+		<Triforce 
+			topLink={{ href: "/poemas", text: "Poemas" }}
+			bottomLeftLink={{ href: "/", text: "Home" }}
+			bottomRightLink={{ href: "/historias", text: "Historias" }}
+		/>
+		
+	</main>
+	<Footer />
+</Layout>

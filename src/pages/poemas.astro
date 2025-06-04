@@ -1,14 +1,48 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Triforce from '../components/Triforce.astro';
+import Preloader from '../components/Preloader.astro';
+import BlogPost from '../layouts/BlogPost.astro';
 ---
 
-<Layout 
-	title="Poemas/Poems"
-	description="Poems page"
-	pubDate={new Date('August 08 2021')}
-	heroImage="/img/CarlosMoheno_Movimiento.gif">
+<Layout>
+	<Preloader slot="preloader" />
+	<Header />
 	<main>
-		<h1>Poemas.</h1>
-		<p>Soy CapLitos05.</p>
+		<h1 style="text-align: center;" data-translate="poems_title">Poemas</h1>
+		<p style="text-align: center;" data-translate="poem_content">
+			Tal vez ya te conozco,
+			Tal vez ya convivo contigo todos los días,
+			Tal vez sé mucho de ti
+			Tal vez no.
+			
+			Tal vez tu mirada me cautiva,
+			Tal vez tu presencia me hace el día,
+			Tal vez tu voz me da tranquilidad,
+			Tal vez no.
+			
+			Tal vez Dios o el Universo me llevaron a conocerte,
+			Tal vez nuestra conexión se dio de manera natural,
+			Tal vez fue el destino,
+			Tal vez no.
+			
+			No sé si seas parte de mi vida o aún no,
+			Cualquiera sea el caso, sé que eres mi vida, mi luz,
+			Sé que daría todo por ti y sé que haría todo por que seas feliz
+			Ya sea que eso signifique que sigas con o sin mí.
+		</p>
+		
+		<br>
+
+		<p data-translate="more_texts_coming_soon">Más textos próximamente...</p>
+		<Triforce 
+			topLink={{ href: "/", text: "Home" }}
+			bottomLeftLink={{ href: "/historias", text: "Historias" }}
+			bottomRightLink={{ href: "/frases", text: "Frases" }}
+		/>
+		
 	</main>
+	<Footer />
 </Layout>

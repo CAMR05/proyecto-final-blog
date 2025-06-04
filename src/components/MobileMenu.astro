@@ -1,0 +1,173 @@
+---
+import { COLORS, BREAKPOINTS, NAV_ITEMS } from '../consts';
+---
+
+<button class="mobile-menu-button" aria-label="Toggle menu">
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<line x1="3" y1="12" x2="21" y2="12"></line>
+		<line x1="3" y1="6" x2="21" y2="6"></line>
+		<line x1="3" y1="18" x2="21" y2="18"></line>
+	</svg>
+</button>
+
+<div class="mobile-menu">
+	<button class="close-button" aria-label="Close menu">
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<line x1="18" y1="6" x2="6" y2="18"></line>
+			<line x1="6" y1="6" x2="18" y2="18"></line>
+		</svg>
+	</button>
+	<nav class="mobile-nav-links" aria-label="Mobile navigation">
+		{NAV_ITEMS.map(({ href, key, label }) => (
+			<a href={href} data-translate={key}>{label}</a>
+		))}
+		<button id="mobileLanguageToggle" class="lang-btn" aria-label="Toggle language">EN</button>
+	</nav>
+</div>
+
+<style>
+	.mobile-menu-button {
+		display: none;
+		background: var(--color-transparent);
+		border: none;
+		color: var(--color-primary);
+		font-size: 1.5rem;
+		cursor: pointer;
+		padding: 0.5rem;
+	}
+
+	.mobile-menu {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: var(--color-secondary);
+		z-index: 1001;
+		padding: 2rem;
+		box-sizing: border-box;
+	}
+
+	.mobile-menu.active {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.mobile-nav-links {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+		width: 100%;
+		max-width: 300px;
+	}
+
+	.mobile-nav-links a {
+		text-decoration: none;
+		color: var(--color-primary);
+		font-size: 1.5rem;
+		font-weight: 500;
+		padding: 1rem 2rem;
+		border-radius: 4px;
+		transition: all 0.3s ease;
+		width: 100%;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.mobile-nav-links a:hover {
+		background-color: var(--color-overlay);
+	}
+
+	.mobile-nav-links a.active {
+		background-color: var(--color-primary);
+		color: var(--color-white);
+	}
+
+	.close-button {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background: var(--color-transparent);
+		border: none;
+		color: var(--color-primary);
+		font-size: 1.5rem;
+		cursor: pointer;
+		padding: 0.5rem;
+	}
+
+	.lang-btn {
+		background: var(--color-transparent);
+		border: 1px solid var(--color-primary);
+		color: var(--color-primary);
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		width: 100%;
+		max-width: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.lang-btn:hover {
+		background: var(--color-primary);
+		color: var(--color-white);
+	}
+
+	@media (max-width: var(--breakpoint-mobile)) {
+		.mobile-menu-button {
+			display: block;
+		}
+	}
+</style>
+
+<script>
+	// Variables CSS globales
+	document.documentElement.style.setProperty('--color-primary', '${COLORS.primary}');
+	document.documentElement.style.setProperty('--color-secondary', '${COLORS.secondary}');
+	document.documentElement.style.setProperty('--color-white', '${COLORS.white}');
+	document.documentElement.style.setProperty('--color-black', '${COLORS.black}');
+	document.documentElement.style.setProperty('--color-transparent', '${COLORS.transparent}');
+	document.documentElement.style.setProperty('--color-overlay', '${COLORS.overlay}');
+	document.documentElement.style.setProperty('--breakpoint-mobile', '${BREAKPOINTS.mobile}');
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const menuButton = document.querySelector('.mobile-menu-button');
+		const mobileMenu = document.querySelector('.mobile-menu');
+		const closeButton = document.querySelector('.close-button');
+		const mobileLanguageToggle = document.getElementById('mobileLanguageToggle');
+
+		menuButton?.addEventListener('click', () => {
+			mobileMenu?.classList.add('active');
+		});
+
+		closeButton?.addEventListener('click', () => {
+			mobileMenu?.classList.remove('active');
+		});
+
+		// Cerrar menú al hacer clic en un enlace
+		document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+			link.addEventListener('click', () => {
+				mobileMenu?.classList.remove('active');
+			});
+		});
+
+		// Sincronizar el estado del botón de idioma móvil con el de escritorio
+		const desktopLanguageToggle = document.getElementById('languageToggle');
+		if (desktopLanguageToggle && mobileLanguageToggle) {
+			mobileLanguageToggle.textContent = desktopLanguageToggle.textContent;
+			mobileLanguageToggle.addEventListener('click', () => {
+				desktopLanguageToggle.click();
+				mobileLanguageToggle.textContent = desktopLanguageToggle.textContent;
+			});
+		}
+	});
+</script> 

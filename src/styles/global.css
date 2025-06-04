@@ -3,41 +3,252 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
-
+ @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 :root {
-	--accent: #ff0000;
-	--accent-dark: --gray-dark
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+	--accent: #e64a00;
+	--accent-light: #ff6b1a;
+	--accent-dark: #b33d00;
+	--accent-gradient: linear-gradient(45deg, var(--accent), var(--accent-light) 30%, white 60%);
+	--background-color: darkred;
+	--text-color: #ff5100;
+	--link-color: var(--accent);
+	--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	--transition: all 0.3s ease;
 }
-@font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+
+html {
+	font-family: 'Pacifico', cursive;
+	background: var(--background-color);
+	background-size: 224px;
+	scroll-behavior: smooth;
+	width: 100%;
+	min-height: 100vh;
 }
-@font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
+
 body {
-	font-family: 'Atkinson', sans-serif;
 	margin: 0;
 	padding: 0;
-	text-align: left;
+	color: var(--text-color);
+	line-height: 1.6;
+	background: var(--background-color);
+	min-height: 100vh;
+	width: 100%;
+	font-family: 'Pacifico', cursive;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: var(--accent-dark);
+	margin: 1.5rem 0 1rem;
+	line-height: 1.2;
+	text-align: center;
+	font-family: 'Pacifico', cursive;
+}
+
+h1 {
+	font-size: 2.5rem;
+	font-weight: 800;
+	background: var(--accent-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+h3 {
+	font-size: 1.75rem;
+	font-weight: 600;
+}
+
+p {
+	margin: 1rem 0;
+	text-align: justify;
+	max-width: 65ch;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+a {
+	color: var(--accent-dark);
+	text-decoration: none;
+	transition: var(--transition);
+}
+
+a:hover {
+	color: var(--accent);
+	text-decoration: underline;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	box-shadow: none !important;
+}
+
+.logo img {
+	box-shadow: none !important;
+}
+
+button {
+	background: none;
+	border: 2px solid var(--accent-dark);
+	color: var(--accent-dark);
+	padding: 0.5rem 1rem;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: 500;
+	transition: var(--transition);
+	font-family: 'Pacifico', cursive;
+}
+
+button:hover {
+	background: var(--accent-dark);
+	color: white;
+	transform: translateY(-2px);
+	box-shadow: var(--box-shadow);
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+.card {
+	background: white;
+	border-radius: 12px;
+	padding: 1.5rem;
+	box-shadow: var(--box-shadow);
+	transition: var(--transition);
+}
+
+.card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.section {
+	padding: 4rem 0;
+}
+
+.section-title {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.gradient-text {
+	background: var(--accent-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-in {
+	animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+	h1 {
+		font-size: 2rem;
+	}
+
+	h2 {
+		font-size: 1.75rem;
+	}
+
+	h3 {
+		font-size: 1.5rem;
+	}
+
+	.container {
+		padding: 1rem;
+	}
+
+	.section {
+		padding: 2rem 0;
+	}
+}
+
+/* Estilos para el contenido principal */
+main {
+	min-height: calc(100vh - 200px);
+	padding: 2rem 0;
+}
+
+/* Estilos para el preloader */
+.preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--background-color);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+}
+
+.preloader img {
+	width: 100px;
+	height: 100px;
+	animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		opacity: 0.5;
+	}
+	50% {
+		transform: scale(1.05);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(0.95);
+		opacity: 0.5;
+	}
+}
+
+/* Estilos para el contenido oculto */
+.hidden {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+body {
+	font-family: 'Pacifico', cursive;
+	margin: 0;
+	padding: 0;
+	text-align: center;
 	background-color: darkred;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
+	color: #ff5100;
 	font-size: 20px;
 	line-height: 1.7;
 }
@@ -46,6 +257,9 @@ main {
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 h1,
 h2,
@@ -54,8 +268,9 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
+	color: #ff5100;
 	line-height: 1.2;
+	text-align: center;
 }
 h1 {
 	font-size: 3.052em;
@@ -76,18 +291,6 @@ strong,
 b {
 	font-weight: 700;
 }
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
 textarea {
 	width: 100%;
 	font-size: 16px;
@@ -97,11 +300,6 @@ input {
 }
 table {
 	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
 }
 code {
 	padding: 2px 5px;
@@ -116,10 +314,11 @@ pre > code {
 	all: unset;
 }
 blockquote {
-	border-left: 4px solid var(--accent);
+	border-left: 4px solid #ff5100;
 	padding: 0 0 0 20px;
 	margin: 0px;
 	font-size: 1.333em;
+	text-align: center;
 }
 hr {
 	border: none;

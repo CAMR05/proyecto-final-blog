@@ -18,6 +18,8 @@ const {
 	<head>
 		<BaseHead title={title} description={description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="icon" type="image/png" href="/img/favicon-96x96.png" />
+		<meta name="generator" content={Astro.generator} />
 		<style>
 			/* Variables globales */
 			:root {
@@ -28,6 +30,10 @@ const {
 				/* Layout */
 				--max-width: 1200px;
 				--container-padding: 1rem;
+				--accent: 136, 58, 234;
+				--accent-light: 224, 204, 250;
+				--accent-dark: 49, 10, 101;
+				--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
 			}
 
 			/* Reset y estilos base */
@@ -45,6 +51,9 @@ const {
 				-moz-osx-font-smoothing: grayscale;
 				scroll-behavior: smooth;
 				height: 100%;
+				font-family: system-ui, sans-serif;
+				background: #f6f6f6;
+				background-size: 224px;
 			}
 
 			body {
@@ -73,11 +82,11 @@ const {
 				z-index: 9999;
 				opacity: 1;
 				transition: opacity var(--transition-duration) var(--transition-timing);
-				overflow: hidden;
 			}
 
 			#preloader.fade-out {
 				opacity: 0;
+				pointer-events: none;
 			}
 
 			#preloader img {
@@ -112,7 +121,7 @@ const {
 				content: '';
 				position: fixed;
 				inset: 0;
-				background: rgba(255, 255, 255, 0.85);
+				background: rgba(139, 0, 0, 0.85);
 				backdrop-filter: blur(10px);
 				z-index: -1;
 			}
@@ -226,51 +235,14 @@ const {
 		</div>
 		<script>
 			document.addEventListener('DOMContentLoaded', () => {
-				// Elementos del DOM
-				const preloader = document.getElementById('preloader');
 				const content = document.getElementById('content');
-				
-				if (!preloader || !content) return;
+				if (!content) return;
 
-				// Control de scroll
-				const scrollControl = {
-					preventScroll() {
-						document.body.style.overflow = 'hidden';
-						document.documentElement.style.overflow = 'hidden';
-					},
-					enableScroll() {
-						document.body.style.overflow = '';
-						document.documentElement.style.overflow = '';
-					}
-				};
-
-				// Gestión del preloader
-				const preloaderManager = {
-					setHeight() {
-						if (preloader) {
-							preloader.style.height = `${window.innerHeight}px`;
-						}
-					},
-					hide() {
-						preloader.classList.add('fade-out');
-						setTimeout(() => {
-							preloader.style.display = 'none';
-							content.classList.remove('hidden');
-							setTimeout(() => {
-								content.classList.add('visible');
-								scrollControl.enableScroll();
-							}, 100);
-						}, 1500);
-					}
-				};
-
-				// Inicialización
-				scrollControl.preventScroll();
-				preloaderManager.setHeight();
-				window.addEventListener('resize', preloaderManager.setHeight);
-
-				// Iniciar secuencia
-				setTimeout(preloaderManager.hide, 7000);
+				// Mostrar el contenido después de un breve retraso
+				setTimeout(() => {
+					content.classList.remove('hidden');
+					content.classList.add('visible');
+				}, 100);
 			});
 		</script>
 	</body>
