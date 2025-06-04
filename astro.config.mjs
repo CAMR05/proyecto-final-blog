@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://camr05.github.io',
-  output: 'static'
+  site: "https://[tu-usuario].github.io/[nombre-repo]",
+  base: "/[nombre-repo]",
+  outDir: "docs",
+  // ... resto de tu configuración
 });
